@@ -198,6 +198,29 @@ protected void Application_Start(object sender, EventArgs e)
 
 ***More payload attribute options will be added in the future.***
 
+### Compression Events API (JavaScript)
+**methodResponse(callback):** Binds a callback that will be called when the server returns a value from a method invocation.  Passes the compressed result to the callback.  
+**invokingServerMethod(callback):** Binds a callback that will be called when the client is about to trigger a server method.  Passes the methodName to be invoked and the array of arguments to invoke it with.  
+**serverInvokingClient(callback):** Binds a callback that will be called when the server is about to trigger a client method.  Passes the methodName to be invoked and the array of arguments to invoke it with.  
+
+***Usage:***
+```JavaScript
+$.connection.hub.compression.methodResponse(function(result) {
+    console.log("Compressed server return result: " + result);
+});
+
+$.connection.hub.compression.invokingServerMethod(function(methodName, args) {
+    console.log("Invoking server method " + methodName + " + with compressed arguments: " + args);
+});
+
+$.connection.hub.compression.serverInvokingClient(function(methodName, args) {
+    console.log("Invoking client method " + methodName + " + with compressed arguments: " + args);
+});
+```
+
+**Note:** Results/Arguments will not be compressed if they are not designated as payloads.  
+
+
 ## FAQ
 ### If I send an IEnumerable<SomePayloadType> over the wire will it be compressed?
 Yes it will.
